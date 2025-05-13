@@ -1,36 +1,38 @@
-from typing import List, Optional
-from pydantic import BaseModel, EmailStr, Field
+from typing import Optional
 from datetime import datetime
+from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 class UserBase(BaseModel):
-    username: str
-    email: EmailStr
-    full_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    username: Optional[str] = None
+    is_active: Optional[bool] = True
+    is_admin: Optional[bool] = False
 
 
 class UserCreate(UserBase):
-    password: str = Field(..., min_length=8)
+    email: EmailStr
+    username: str
+    password: str
 
 
-class UserUpdate(BaseModel):
-    email: Optional[EmailStr] = None
-    full_name: Optional[str] = None
-    password: Optional[str] = Field(None, min_length=8)
+class UserUpdate(UserBase):
+    password: Optional[str] = None
 
 
-class UserInDB(UserBase):
-    id: int
-    is_active: bool
-    is_admin: bool
-    created_at: datetime
-    
-    class Config:
-        orm_mode = True
+class UserInDBBase(UserBase):
+    id: Optional[int] = None
+    created_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-class User(UserInDB):
+class User(UserInDBBase):
     pass
+
+
+class UserInDB(UserInDBBase):
+    hashed_password: str
 
 
 class Token(BaseModel):
@@ -38,16 +40,5 @@ class Token(BaseModel):
     token_type: str
 
 
-class TokenData(BaseModel):
-    username: Optional[str] = None
-    user_id: Optional[int] = None
-
-
-class UserProfile(BaseModel):
-    user: User
-    total_quizzes_taken: int
-    quizzes_created: int
-    average_score: Optional[float] = None
-    
-    class Config:
-        orm_mode = True
+class TokenPayload(BaseModel):
+    sub: Optional[int] = None

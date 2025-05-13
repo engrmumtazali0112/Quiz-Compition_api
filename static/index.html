@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Quiz Game</h1>
+            <div id="user-info">
+                <span id="username">Guest</span>
+                <button id="login-btn" class="btn">Login</button>
+                <button id="register-btn" class="btn">Register</button>
+                <button id="logout-btn" class="btn hidden">Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- Login Form -->
+            <div id="login-form" class="form-container hidden">
+                <h2>Login</h2>
+                <form id="login">
+                    <div class="form-group">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                </form>
+                <p>Don't have an account? <a href="#" id="switch-to-register">Register</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="form-container hidden">
+                <h2>Register</h2>
+                <form id="register">
+                    <div class="form-group">
+                        <label for="register-email">Email:</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-username">Username:</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password:</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <button type="submit" class="btn">Register</button>
+                </form>
+                <p>Already have an account? <a href="#" id="switch-to-login">Login</a></p>
+            </div>
+
+            <!-- Quiz List -->
+            <div id="quiz-list-container">
+                <h2>Available Quizzes</h2>
+                <div id="quiz-list" class="card-container">
+                    <!-- Quiz cards will be added here dynamically -->
+                </div>
+            </div>
+
+            <!-- Create Quiz Form -->
+            <div id="create-quiz-container" class="hidden">
+                <h2>Create a New Quiz</h2>
+                <form id="create-quiz-form">
+                    <div class="form-group">
+                        <label for="quiz-title">Title:</label>
+                        <input type="text" id="quiz-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quiz-description">Description:</label>
+                        <textarea id="quiz-description" required></textarea>
+                    </div>
+                    <div id="questions-container">
+                        <h3>Questions</h3>
+                        <div class="question-item">
+                            <div class="form-group">
+                                <label>Question 1:</label>
+                                <input type="text" class="question-text" required>
+                            </div>
+                            <div class="answers-container">
+                                <div class="answer-item">
+                                    <input type="text" class="answer-text" placeholder="Answer option" required>
+                                    <label>
+                                        <input type="checkbox" class="is-correct"> Correct
+                                    </label>
+                                </div>
+                                <div class="answer-item">
+                                    <input type="text" class="answer-text" placeholder="Answer option" required>
+                                    <label>
+                                        <input type="checkbox" class="is-correct"> Correct
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn add-answer-btn">Add Answer</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn" id="add-question-btn">Add Question</button>
+                    <button type="submit" class="btn">Create Quiz</button>
+                </form>
+            </div>
+
+            <!-- Quiz Taking Interface -->
+            <div id="take-quiz-container" class="hidden">
+                <h2 id="quiz-title-display"></h2>
+                <p id="quiz-description-display"></p>
+                <div id="quiz-progress">Question <span id="current-question">1</span> of <span id="total-questions">0</span></div>
+                <div id="question-container">
+                    <h3 id="question-text"></h3>
+                    <div id="answers-list">
+                        <!-- Answer options will be added here dynamically -->
+                    </div>
+                </div>
+                <button id="next-question" class="btn">Next</button>
+                <button id="submit-quiz" class="btn hidden">Submit Quiz</button>
+            </div>
+
+            <!-- Quiz Results -->
+            <div id="quiz-results" class="hidden">
+                <h2>Quiz Results</h2>
+                <div class="result-summary">
+                    <p>Your score: <span id="score">0</span>/<span id="max-score">0</span></p>
+                    <p>Percentage: <span id="percentage">0%</span></p>
+                </div>
+                <button id="back-to-quizzes" class="btn">Back to Quizzes</button>
+            </div>
+
+            <!-- My Results -->
+            <div id="my-results-container" class="hidden">
+                <h2>My Quiz Results</h2>
+                <div id="results-list">
+                    <!-- Results will be added here dynamically -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <nav>
+                <button id="home-btn" class="nav-btn active">Home</button>
+                <button id="create-btn" class="nav-btn">Create Quiz</button>
+                <button id="my-results-btn" class="nav-btn">My Results</button>
+            </nav>
+        </footer>
+    </div>
+
+    <div id="message-container" class="hidden">
+        <p id="message-text"></p>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

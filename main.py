@@ -1,74 +1,41 @@
-import logging
-import os
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 
-from app.api.endpoints import quiz, users, auth
-from app.models.database import engine, Base, get_db
-from app.models.user import User
-from app.services.user_service import UserService
-from app.config import settings
+from app.api.endpoints import quiz, user
+from app.core.config import settings
+from app.db.session import engine
+from app.db.base_class import Base 
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-)
-logger = logging.getLogger(__name__)
-
-# Create database tables
+# Create tables
 Base.metadata.create_all(bind=engine)
 
-# Initialize FastAPI app
 app = FastAPI(
-    title=settings.PROJECT_NAME,
-    description="A FastAPI application for hosting quiz competitions",
-    version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    title="Quiz Game API",
+    description="A simple quiz game API built with FastAPI and PostgreSQL",
+    version="0.1.0",
 )
 
-# Configure CORS
+# Set up CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers from endpoints
-app.include_router(auth.router, prefix=settings.API_V1_STR, tags=["Authentication"])
-app.include_router(users.router, prefix=f"{settings.API_V1_STR}/users", tags=["Users"])
-app.include_router(quiz.router, prefix=f"{settings.API_V1_STR}/quiz", tags=["Quiz"])
+# Include routers
+app.include_router(quiz.router, prefix="/api/quiz", tags=["quiz"])
+app.include_router(user.router, prefix="/api/users", tags=["users"])
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 async def root():
-    """Root endpoint for health checking"""
-    return {
-        "message": f"Welcome to {settings.PROJECT_NAME}",
-        "status": "running",
-        "version": "1.0.0",
-    }
+    return {"message": "Welcome to the Quiz Game API"}
 
-@app.on_event("startup")
-async def startup_event():
-    """Startup event to initialize the application"""
-    logger.info("Starting up Quiz Competition API")
-    
-    # Create the upload directory if it doesn't exist
-    upload_directory = "uploads"
-    if not os.path.exists(upload_directory):
-        os.makedirs(upload_directory)
-        logger.info(f"Created directory: {upload_directory}")
-    else:
-        logger.info(f"Directory already exists: {upload_directory}")
-
-    # Additional startup logic can go here
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Shutdown event"""
-    logger.info("Shutting down Quiz Competition API")
-
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

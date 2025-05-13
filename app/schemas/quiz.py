@@ -1,169 +1,76 @@
 from typing import List, Optional
-from pydantic import BaseModel, Field
 from datetime import datetime
+from pydantic import BaseModel, ConfigDict
 
 
-# Option schemas
-class OptionBase(BaseModel):
+class AnswerBase(BaseModel):
     text: str
     is_correct: bool
 
 
-class OptionCreate(OptionBase):
+class AnswerCreate(AnswerBase):
     pass
 
 
-class OptionUpdate(OptionBase):
-    pass
-
-
-class Option(OptionBase):
+class Answer(AnswerBase):
     id: int
     question_id: int
-    
-    class Config:
-        orm_mode = True
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-# Question schemas
 class QuestionBase(BaseModel):
     text: str
-    difficulty: int = Field(1, ge=1, le=5)
-    explanation: Optional[str] = None
-    category_id: int
+    order: Optional[int] = None
 
 
 class QuestionCreate(QuestionBase):
-    options: List[OptionCreate]
-
-
-class QuestionUpdate(QuestionBase):
-    options: Optional[List[OptionCreate]] = None
+    answers: List[AnswerCreate]
 
 
 class Question(QuestionBase):
     id: int
-    options: List[Option]
-    
-    class Config:
-        orm_mode = True
+    quiz_id: int
+    answers: List[Answer]
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-class QuestionWithoutCorrectAnswer(BaseModel):
-    id: int
-    text: str
-    difficulty: int
-    category_id: int
-    options: List[BaseModel]
-    
-    class Config:
-        orm_mode = True
-
-
-# Category schemas
-class CategoryBase(BaseModel):
-    name: str
-    description: Optional[str] = None
-
-
-class CategoryCreate(CategoryBase):
-    pass
-
-
-class CategoryUpdate(CategoryBase):
-    pass
-
-
-class Category(CategoryBase):
-    id: int
-    
-    class Config:
-        orm_mode = True
-
-
-# Quiz schemas
 class QuizBase(BaseModel):
     title: str
     description: Optional[str] = None
-    time_limit: Optional[int] = None  # Time limit in seconds
 
 
 class QuizCreate(QuizBase):
-    question_ids: List[int]
-
-
-class QuizUpdate(QuizBase):
-    is_active: Optional[bool] = None
-    question_ids: Optional[List[int]] = None
+    questions: List[QuestionCreate]
 
 
 class Quiz(QuizBase):
     id: int
-    created_at: datetime
-    is_active: bool
     created_by: int
-    
-    class Config:
-        orm_mode = True
-
-
-class QuizDetail(Quiz):
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    is_active: bool
     questions: List[Question]
-    
-    class Config:
-        orm_mode = True
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-# Quiz attempt schemas
-class UserAnswerCreate(BaseModel):
+class AnswerSubmission(BaseModel):
     question_id: int
-    selected_option_id: Optional[int] = None
-    time_taken: Optional[float] = None
+    answer_id: int
 
 
-class UserAnswer(UserAnswerCreate):
-    id: int
-    is_correct: Optional[bool] = None
-    
-    class Config:
-        orm_mode = True
-
-
-class QuizAttemptBase(BaseModel):
+class QuizSubmission(BaseModel):
     quiz_id: int
+    answers: List[AnswerSubmission]
 
 
-class QuizAttemptCreate(QuizAttemptBase):
-    pass
-
-
-class QuizAttemptUpdate(BaseModel):
-    answers: List[UserAnswerCreate]
-
-
-class QuizAttempt(QuizAttemptBase):
+class UserQuizResult(BaseModel):
     id: int
     user_id: int
-    started_at: datetime
-    completed_at: Optional[datetime] = None
-    score: Optional[float] = None
-    
-    class Config:
-        orm_mode = True
-
-
-class QuizAttemptDetail(QuizAttempt):
-    answers: List[UserAnswer]
-    
-    class Config:
-        orm_mode = True
-
-
-class QuizResult(BaseModel):
-    attempt_id: int
     quiz_id: int
-    score: float
-    total_questions: int
-    correct_answers: int
-    time_taken: float  # In seconds
+    score: int
     completed_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
