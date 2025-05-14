@@ -1,5 +1,4 @@
 from typing import Any, List
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -108,6 +107,7 @@ def submit_quiz(
     for question in quiz.questions:
         submitted_answer_id = answer_map.get(question.id)
         if submitted_answer_id:
+            # Check if the submitted answer is correct
             is_correct = db.query(Answer).filter(
                 Answer.id == submitted_answer_id,
                 Answer.question_id == question.id,
@@ -123,7 +123,7 @@ def submit_quiz(
     # Save results
     quiz_result = UserQuizResult(
         user_id=current_user.id,
-        quiz_id=quiz.id,
+        quiz_id=submission.quiz_id,
         score=score,
     )
     db.add(quiz_result)
@@ -155,17 +155,17 @@ def delete_quiz(
     current_user: User = Depends(get_current_user),
 ) -> None:
     """
-    Delete a quiz.
+    Delete a quiz (soft delete).
     """
     quiz = db.query(Quiz).filter(Quiz.id == quiz_id).first()
     if not quiz:
         raise HTTPException(status_code=404, detail="Quiz not found")
     
+    # Only the creator or an admin can delete the quiz
     if quiz.created_by != current_user.id and not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Not enough permissions")
     
     # Soft delete
     quiz.is_active = False
     db.commit()
-    return None  # Ensure no body is returned for status code 204.
-   
+    return None  # No response body for a 204 No Content
