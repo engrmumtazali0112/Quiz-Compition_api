@@ -1,227 +1,237 @@
-# Quiz Game API
+# 🎮 Quiz Game API
 
-## Overview
+<div align="center">
+  
+  ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+  ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+  ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-CC2927?style=for-the-badge&logo=sqlalchemy&logoColor=white)
+  ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white)
 
-Welcome to the **Quiz Game API** project! This API is built with **FastAPI** and **PostgreSQL**, providing a backend for a quiz application where users can:
-- Register and log in.
-- Participate in quizzes.
-- Track their quiz scores and results.
+  <p>A modern interactive quiz application with an animated frontend and robust API backend</p>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  ![Version](https://img.shields.io/badge/version-0.1.0-blue)
+  
+</div>
 
-This project includes a frontend UI with animations that interacts with the backend API to create, submit, and view quizzes.
+## ✨ Overview
 
-## Features
+Welcome to the **Quiz Game API** project! This is a full-stack application built with **FastAPI** and **PostgreSQL** on the backend, featuring an animated and interactive frontend. The system allows users to register, create quizzes, participate in quizzes created by others, and track their scores on a leaderboard.
 
-- **User Authentication**: Users can register, log in, and manage their profiles.
-- **Quiz Management**: Users can create new quizzes, view available quizzes, and submit answers.
-- **Leaderboard**: Users can view their scores and compare them with others.
-- **Animations**: The frontend includes animations that make the user experience more interactive.
+<div align="center">
+  <img src="https://via.placeholder.com/800x400?text=Quiz+Game+Screenshot" alt="Quiz Game Screenshot" width="80%">
+</div>
 
-## Project Structure
+## 🚀 Features
 
+- **👤 User Authentication**
+  - Secure registration and login
+  - JWT-based authentication
+  - Password hashing with bcrypt
+  
+- **📝 Quiz Management**
+  - Create custom quizzes with multiple-choice questions
+  - View available quizzes from other users
+  - Interactive quiz-taking interface
+  
+- **🏆 Results & Leaderboard**
+  - Track personal quiz scores and history
+  - Compare results with other users
+  
+- **🎭 User Experience**
+  - Animated frontend interface
+  - Responsive design for all devices
+  - Intuitive navigation
+
+## 🛠️ Tech Stack
+
+### Backend
+- **FastAPI** - Modern, fast web framework for building APIs
+- **PostgreSQL** - Reliable relational database
+- **SQLAlchemy** - Powerful ORM for database interactions
+- **Alembic** - Database migration tool
+- **JWT** - Token-based authentication
+- **bcrypt** - Secure password hashing
+
+### Frontend
+- **HTML5/CSS3/JavaScript** - Frontend fundamentals
+- **Custom Animations** - Enhanced user experience
+- **SweetAlert2** - Beautiful, responsive notifications
+
+## 📋 Project Structure
+
+```
 quiz_app/
-├── .env # Environment variables (configuration settings)
-├── requirements.txt # Python dependencies
-├── README.md # Project documentation
-├── main.py # FastAPI application entry point
-├── alembic/ # Database migrations
-│ ├── env.py
-│ ├── README
-│ ├── script.py.mako
-│ └── versions/
-│ └── initial_migration.py
+├── .env                  # Environment variables
+├── requirements.txt      # Python dependencies
+├── README.md             # Project documentation
+├── main.py               # FastAPI application entry point
+├── alembic/              # Database migrations
 ├── app/
-│ ├── init.py
-│ ├── api/
-│ │ ├── init.py
-│ │ ├── deps.py # Dependency injection
-│ │ └── endpoints/
-│ │ ├── init.py
-│ │ ├── quiz.py # Quiz endpoints
-│ │ └── user.py # User endpoints
-│ ├── core/
-│ │ ├── init.py
-│ │ ├── config.py # Configuration settings
-│ │ └── security.py # Security utilities
-│ ├── db/
-│ │ ├── init.py
-│ │ ├── base.py # Base models
-│ │ └── session.py # Database session
-│ ├── models/
-│ │ ├── init.py
-│ │ ├── quiz.py # Quiz models
-│ │ └── user.py # User models
-│ ├── schemas/
-│ │ ├── init.py
-│ │ ├── quiz.py # Quiz schemas
-│ │ └── user.py # User schemas
-│ └── services/
-│ ├── init.py
-│ ├── quiz.py # Quiz business logic
-│ └── user.py # User business logic
-└── static/
-├── css/
-│ └── style.css # Styling for frontend
-├── js/
-│ └── script.js # Frontend interactivity
-└── index.html # Frontend HTML with animations
+│   ├── api/              # API endpoints
+│   ├── core/             # Configuration and security
+│   ├── db/               # Database setup
+│   ├── models/           # Database models
+│   ├── schemas/          # Pydantic schemas
+│   └── services/         # Business logic
+└── static/               # Frontend assets
+    ├── css/              # Styling
+    ├── js/               # Frontend interactivity
+    └── index.html        # Main HTML template
+```
 
-markdown
-Copy
-
-## Technologies Used
-
-- **FastAPI**: A modern Python web framework for building APIs quickly.
-- **PostgreSQL**: A relational database for storing user data and quiz information.
-- **SQLAlchemy**: ORM for database interaction.
-- **JWT (JSON Web Tokens)**: Used for user authentication.
-- **bcrypt**: Password hashing library.
-- **Alembic**: Database migration tool for SQLAlchemy.
-- **Frontend**: HTML, CSS, and JavaScript for the quiz game interface.
-- **SweetAlert2**: Used for notifications in the frontend.
-
-## Installation
+## 🔧 Installation
 
 ### Prerequisites
 
 - **Python 3.8+**
 - **PostgreSQL**
-- **pip** (Python's package installer)
+- **Node.js** (optional, for frontend development)
 
-### Step-by-step Installation:
+### Step-by-Step Setup
 
-1. **Clone the Repository**:
+1. **Clone the repository**
 
-   ```bash
-   git clone https://github.com/your-username/quiz-game-api.git
-   cd quiz-game-api
-Set up the Virtual Environment:
+```bash
+git clone https://github.com/yourusername/quiz-game-api.git
+cd quiz-game-api
+```
 
-It's recommended to use a virtual environment to manage dependencies.
+2. **Set up a virtual environment**
 
-bash
-Copy
+```bash
 python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-Install Dependencies:
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-Install the required Python packages:
+3. **Install dependencies**
 
-bash
-Copy
+```bash
 pip install -r requirements.txt
-Configure the Database:
+```
 
-Make sure PostgreSQL is installed and running.
+4. **Configure the database**
 
-Create a new database quiz_db in PostgreSQL.
+Create a PostgreSQL database:
 
-bash
-Copy
+```bash
 psql -U postgres
 CREATE DATABASE quiz_db;
-Set up Environment Variables:
+```
 
-Rename .env.example to .env and configure the values inside (e.g., database URL, JWT secret key).
+5. **Set up environment variables**
 
-plaintext
-Copy
-DATABASE_URL="postgresql://postgres:your_password@localhost:5432/quiz_db"
-SECRET_KEY=your_generated_secret_key_here
+Create a `.env` file with:
+
+```
+DATABASE_URL=postgresql://postgres:your_password@localhost:5432/quiz_db
+SECRET_KEY=your_generated_secret_key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
-Run Migrations:
+```
 
-If you're using Alembic for database migrations, run the following command to create the necessary tables:
+6. **Run database migrations**
 
-bash
-Copy
+```bash
 alembic upgrade head
-Start the FastAPI Application:
+```
 
-Finally, start the FastAPI application using Uvicorn:
+7. **Start the application**
 
-bash
-Copy
+```bash
 uvicorn main:app --reload
-The API should now be accessible at http://127.0.0.1:8000.
+```
 
-Test the API:
+The application will be available at `http://127.0.0.1:8000`
 
+## 📝 API Documentation
 
+Once the application is running, interactive API documentation is available at:
 
+- **Swagger UI**: `http://127.0.0.1:8000/docs`
+- **ReDoc**: `http://127.0.0.1:8000/redoc`
 
-## Technologies Used
+## 📚 API Endpoints
 
-- **FastAPI**: A modern Python web framework for building APIs quickly.
-- **PostgreSQL**: A relational database for storing user data and quiz information.
-- **SQLAlchemy**: ORM for database interaction.
-- **JWT (JSON Web Tokens)**: Used for user authentication.
-- **bcrypt**: Password hashing library.
-- **Alembic**: Database migration tool for SQLAlchemy.
-- **Frontend**: HTML, CSS, and JavaScript for the quiz game interface.
-- **SweetAlert2**: Used for notifications in the frontend.
+### User Management
+- `POST /api/users/register` - Register a new user
+- `POST /api/users/token` - Login and get access token
+- `GET /api/users/me` - Get current user details
 
-## Installation
+### Quiz Operations
+- `GET /api/quiz/` - List all available quizzes
+- `POST /api/quiz/` - Create a new quiz
+- `GET /api/quiz/{quiz_id}` - Get quiz details
+- `POST /api/quiz/submit` - Submit quiz answers
+- `GET /api/quiz/results/{quiz_id}` - Get results for a specific quiz
+- `DELETE /api/quiz/{quiz_id}` - Delete a quiz (soft delete)
 
-### Prerequisites
+## 🔐 Authentication
 
-- **Python 3.8+**
-- **PostgreSQL**
-- **pip** (Python's package installer)
+The API uses JWT (JSON Web Tokens) for authentication. To access protected endpoints:
 
-### Step-by-step Installation:
+1. Register a user or login to get a token
+2. Include the token in requests using the `Authorization` header:
+   ```
+   Authorization: Bearer your_token_here
+   ```
 
-1. **Clone the Repository**:
+## 🖥️ Frontend
 
-   ```bash
-   git clone https://github.com/your-username/quiz-game-api.git
-   cd quiz-game-api
+The application includes a built-in frontend accessible at the root URL (`http://127.0.0.1:8000`). The interface provides:
+
+- User registration and login
+- Quiz creation interface
+- Quiz-taking experience with animations
+- Results viewing
+
+## 🧪 Testing
+
+Run the test suite with:
+
+```bash
+pytest
+```
+
+## 📦 Dependencies
 
 ```
-quiz_app/
-├── .env # Environment variables (configuration settings)
-├── requirements.txt # Python dependencies
-├── README.md # Project documentation
-├── main.py # FastAPI application entry point
-├── alembic/ # Database migrations
-│ ├── env.py
-│ ├── README
-│ ├── script.py.mako
-│ └── versions/
-│ └── initial_migration.py
-├── app/
-│ ├── init.py
-│ ├── api/
-│ │ ├── init.py
-│ │ ├── deps.py # Dependency injection
-│ │ └── endpoints/
-│ │ ├── init.py
-│ │ ├── quiz.py # Quiz endpoints
-│ │ └── user.py # User endpoints
-│ ├── core/
-│ │ ├── init.py
-│ │ ├── config.py # Configuration settings
-│ │ └── security.py # Security utilities
-│ ├── db/
-│ │ ├── init.py
-│ │ ├── base.py # Base models
-│ │ └── session.py # Database session
-│ ├── models/
-│ │ ├── init.py
-│ │ ├── quiz.py # Quiz models
-│ │ └── user.py # User models
-│ ├── schemas/
-│ │ ├── init.py
-│ │ ├── quiz.py # Quiz schemas
-│ │ └── user.py # User schemas
-│ └── services/
-│ ├── init.py
-│ ├── quiz.py # Quiz business logic
-│ └── user.py # User business logic
-└── static/
-├── css/
-│ └── style.css # Styling for frontend
-├── js/
-│ └── script.js # Frontend interactivity
-└── index.html # Frontend HTML with animations
+fastapi>=0.103.1
+uvicorn>=0.23.2
+sqlalchemy>=2.0.20
+psycopg2-binary>=2.9.7
+python-jose>=3.3.0
+passlib>=1.7.4
+python-multipart>=0.0.6
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+alembic>=1.12.0
+python-dotenv>=1.0.0
+bcrypt>=4.0.1
 ```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📬 Contact
+
+Your Name - [@your_twitter](https://twitter.com/mali_yzi) - email@example.com
+
+Project Link: [https://github.com/yourusername/quiz-game-api](https://github.com/engrmumtazali0112/Quiz-Compition_api)
+
+---
+
+<div align="center">
+  <p>Made with Mumtaz Ali❤️ and ☕</p>
+</div>
