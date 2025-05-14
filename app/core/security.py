@@ -14,9 +14,8 @@ from app.models.user import User
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# OAuth2 scheme setup
-# Make sure this URL matches exactly what's expected in the Swagger UI
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/users/token")
+# OAuth2 scheme setup - Make sure this URL matches what's in the frontend and router
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"/api/users/token")
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     """
@@ -62,13 +61,28 @@ def get_current_user(
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
-        username: str = payload.get("sub")
-        if username is None:
+        user_id: str = payload.get("sub")  # Get 'sub' from payload
+        if user_id is None:
             raise credentials_exception
     except JWTError:
         raise credentials_exception
     
-    user = db.query(User).filter(User.username == username).first()
-    if user is None or not user.is_active:
+    # Convert user_id to int since we stored it as string in the token
+    try:
+        user_id_int = int(user_id)
+    except ValueError:
         raise credentials_exception
+    
+    user = db.query(User).filter(User.id == user_id_int).first()
+    if user is None:
+        raise credentials_exception
+    
+    # Check if user is active
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Inactive user",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
     return user
